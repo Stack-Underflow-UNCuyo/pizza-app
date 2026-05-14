@@ -11,6 +11,7 @@ class SingInBloc extends Bloc<SingInEvent, SingInState> {
       emit(SingInLoading());
       try {
         await _userRepository.signIn(event.email, event.password);
+        emit(SingInSuccess());
       } catch (e) {
         emit(SingInFailure());
       }

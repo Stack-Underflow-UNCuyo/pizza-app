@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -14,9 +15,10 @@ class AuthenticationBloc
 
   AuthenticationBloc({required this.userRepository})
       : super(const AuthenticationState.unknown()) {
-    _userSubscription = userRepository.user.listen((user) {
-      add(AuthenticationUserChanged(user));
-    });
+    _userSubscription = userRepository.user.listen(
+      (user) => add(AuthenticationUserChanged(user)),
+      onError: (e) => log('AuthenticationBloc stream error: $e'),
+    );
 
     on<AuthenticationUserChanged>((event, emit) {
       if (event.user != MyUser.empty) {

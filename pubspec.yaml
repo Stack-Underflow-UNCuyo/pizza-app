@@ -19,6 +19,11 @@ dependencies:
   user_repository:
     path: packages/user_repository
 
+  pizza_repository:
+    path: packages/pizza_repository
+
+  font_awesome_flutter: ^10.6.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -26,3 +31,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  assets: 
+    - assets/

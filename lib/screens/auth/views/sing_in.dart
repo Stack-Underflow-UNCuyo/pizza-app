@@ -26,11 +26,11 @@ class _SignInScreenState extends State<SignInScreen> {
       listener: (context, state) {
         if (state is SingInLoading) {
           setState(() {
-            signInRequired = false;
-          });
-        } else if (state is SingInLoading) {
-          setState(() {
             signInRequired = true;
+          });
+        } else if (state is SingInSuccess) {
+          setState(() {
+            signInRequired = false;
           });
         } else if (state is SingInFailure) {
           setState(() {

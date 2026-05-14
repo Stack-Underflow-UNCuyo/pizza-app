@@ -20,8 +20,29 @@ class FirebaseUserRepo implements UserRepository {
       if (fireBaseUser == null) {
         yield MyUser.empty;
       } else {
-        yield await userCollection.doc(fireBaseUser.uid).get().then((onValue) =>
-            MyUser.fromEntity(MyUserEntity.fromJson(onValue.data()!)));
+        try {
+          final doc = await userCollection.doc(fireBaseUser.uid).get();
+          if (doc.data() != null) {
+            yield MyUser.fromEntity(MyUserEntity.fromJson(doc.data()!));
+          } else {
+            // Firestore document missing — fall back to Auth data
+            log('No Firestore document for ${fireBaseUser.uid}, using Auth data');
+            yield MyUser(
+              userId: fireBaseUser.uid,
+              email: fireBaseUser.email ?? '',
+              name: fireBaseUser.displayName ?? '',
+              hasActiveCart: false,
+            );
+          }
+        } catch (e) {
+          log('Error fetching user document: $e');
+          yield MyUser(
+            userId: fireBaseUser.uid,
+            email: fireBaseUser.email ?? '',
+            name: fireBaseUser.displayName ?? '',
+            hasActiveCart: false,
+          );
+        }
       }
     });
   }

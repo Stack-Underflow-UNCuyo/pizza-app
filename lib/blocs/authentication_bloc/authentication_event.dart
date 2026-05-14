@@ -4,7 +4,7 @@ sealed class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class AuthenticationUserChanged extends AuthenticationEvent {
@@ -13,5 +13,5 @@ class AuthenticationUserChanged extends AuthenticationEvent {
   const AuthenticationUserChanged(this.user);
 
   @override
-  List<Object> get props => [user];
+  List<Object?> get props => [user];
 }
